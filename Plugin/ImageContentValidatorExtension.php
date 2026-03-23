@@ -15,10 +15,16 @@ class ImageContentValidatorExtension
 {
     private const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png'];
 
-    public function __construct(
-        private readonly IoFile $ioFile,
-        private readonly Config $config
-    ) {
+    /** @var IoFile */
+    private $ioFile;
+
+    /** @var Config */
+    private $config;
+
+    public function __construct(IoFile $ioFile, Config $config)
+    {
+        $this->ioFile = $ioFile;
+        $this->config = $config;
     }
 
     public function afterIsValid(

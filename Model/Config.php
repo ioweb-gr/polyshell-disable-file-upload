@@ -12,9 +12,12 @@ class Config
     private const XML_PATH_DISABLE_UPLOADS = 'ioweb_polyshell/general/disable_uploads';
     private const XML_PATH_ALLOW_ONLY_IMAGE_EXTENSIONS = 'ioweb_polyshell/general/allow_only_image_extensions';
 
-    public function __construct(
-        private readonly ScopeConfigInterface $scopeConfig
-    ) {
+    /** @var ScopeConfigInterface */
+    private $scopeConfig;
+
+    public function __construct(ScopeConfigInterface $scopeConfig)
+    {
+        $this->scopeConfig = $scopeConfig;
     }
 
     public function isDisableUploadsEnabled(?string $storeCode = null): bool

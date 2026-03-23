@@ -19,9 +19,12 @@ class ScanCustomOptionsCommand extends Command
     private const OPTION_FORCE = 'force';
     private const RELATIVE_SCAN_PATH = 'custom_options';
 
-    public function __construct(
-        private readonly Filesystem $filesystem
-    ) {
+    /** @var Filesystem */
+    private $filesystem;
+
+    public function __construct(Filesystem $filesystem)
+    {
+        $this->filesystem = $filesystem;
         parent::__construct();
     }
 

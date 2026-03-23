@@ -10,9 +10,12 @@ use Magento\Framework\Exception\LocalizedException;
 
 class DisableFileOptionValidator
 {
-    public function __construct(
-        private readonly Config $config
-    ) {
+    /** @var Config */
+    private $config;
+
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
     }
 
     public function beforeValidate(ValidatorFile $subject, $processingParams, $option): array

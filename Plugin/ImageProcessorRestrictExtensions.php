@@ -12,10 +12,16 @@ class ImageProcessorRestrictExtensions
 {
     private const ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'gif', 'png'];
 
-    public function __construct(
-        private readonly Uploader $uploader,
-        private readonly Config $config
-    ) {
+    /** @var Uploader */
+    private $uploader;
+
+    /** @var Config */
+    private $config;
+
+    public function __construct(Uploader $uploader, Config $config)
+    {
+        $this->uploader = $uploader;
+        $this->config = $config;
     }
 
     public function beforeProcessImageContent(ImageProcessor $subject, $entityType, $imageContent): ?array

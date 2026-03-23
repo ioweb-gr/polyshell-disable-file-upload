@@ -12,9 +12,12 @@ use Magento\Framework\Phrase;
 
 class DisableApiFileCustomOption
 {
-    public function __construct(
-        private readonly Config $config
-    ) {
+    /** @var Config */
+    private $config;
+
+    public function __construct(Config $config)
+    {
+        $this->config = $config;
     }
 
     public function aroundGetOptionValue(CustomOption $subject, callable $proceed)
