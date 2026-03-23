@@ -2,24 +2,32 @@
 
 Temporary Magento 2 hardening module that mitigates PolyShell-style abuse until the store is upgraded and fully patched.
 
-## Features
+## What it provides
 
-The module provides two independent protections, both configurable from Magento admin at:
+The module includes three practical protections:
 
-`Stores > Configuration > General > PolyShell Protection`
+- A hard block for file custom option uploads.
+- A narrower image-extension-only mitigation inspired by [Mark Shust's workaround](https://github.com/markshust/magento-polyshell-patch).
+- A CLI command to scan and optionally clear files from `pub/media/custom_options`.
 
-### 1. Disable PolyShell Uploads
+## Admin configuration
 
-Hard-blocks file custom option uploads:
+Configuration is available at:
+
+`Stores > Configuration > Security > PolyShell Protection`
+
+### Disable PolyShell Uploads
+
+When enabled, the module hard-blocks file custom option uploads:
 
 - REST and API-driven file custom option payloads are rejected.
 - Standard Magento file custom option validation is rejected too.
 
 Use this if the store does not rely on file custom options at all.
 
-### 2. Allow Only Image Extensions
+### Allow Only Image Extensions
 
-Implements a Mark Shust-style mitigation:
+When enabled, the module applies an image-only extension allowlist to the relevant Magento image upload path:
 
 - rejects non-image filename extensions during image content validation
 - restricts the uploader to `jpg`, `jpeg`, `gif`, and `png`
@@ -29,6 +37,26 @@ Use this if you want a narrower mitigation and still need image-only behavior.
 ## Default configuration
 
 For safety, both protections default to `Yes`.
+
+## CLI command
+
+The module adds this command:
+
+```bash
+bin/magento ioweb:polyshell:custom-options:scan
+```
+
+Behavior:
+
+- Dry-run by default: lists files under `pub/media/custom_options` that would be removed.
+- Deletes only when `--force` is supplied.
+- Ignores `.htaccess` and `.gitignore`.
+
+Example:
+
+```bash
+bin/magento ioweb:polyshell:custom-options:scan --force
+```
 
 ## Installation
 
