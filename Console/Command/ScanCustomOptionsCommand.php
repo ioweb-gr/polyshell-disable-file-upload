@@ -40,20 +40,20 @@ class ScanCustomOptionsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-        $mediaDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
+        $mediaReadDirectory = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA);
 
-        if (!$mediaDirectory->isExist(self::RELATIVE_SCAN_PATH)) {
+        if (!$mediaReadDirectory->isExist(self::RELATIVE_SCAN_PATH)) {
             $io->success('No pub/media/custom_options directory exists. Nothing to do.');
             return Command::SUCCESS;
         }
 
-        $files = $this->getCandidateFiles($mediaDirectory);
+        $files = $this->getCandidateFiles($mediaReadDirectory);
         if ($files === []) {
             $io->success('No files found to clear under pub/media/custom_options.');
             return Command::SUCCESS;
         }
 
-        $absoluteBasePath = rtrim($mediaDirectory->getAbsolutePath(self::RELATIVE_SCAN_PATH), '/');
+        $absoluteBasePath = rtrim($mediaReadDirectory->getAbsolutePath(self::RELATIVE_SCAN_PATH), '/');
         $io->title('PolyShell custom_options scan');
         $io->writeln('Base path: ' . $absoluteBasePath);
         $io->newLine();
@@ -64,11 +64,14 @@ class ScanCustomOptionsCommand extends Command
             return Command::SUCCESS;
         }
 
+        $mediaWriteDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $deleted = 0;
         foreach ($files as $file) {
             try {
-                $mediaDirectory->delete($file);
-                $deleted++;
+                if ($mediaWriteDirectory->isExist($file)) {
+                    $mediaWriteDirectory->delete($file);
+                    $deleted++;
+                }
             } catch (\Throwable $exception) {
                 $io->error(sprintf('Failed to delete %s: %s', $file, $exception->getMessage()));
                 return Command::FAILURE;
@@ -84,12 +87,12 @@ class ScanCustomOptionsCommand extends Command
      */
     private function getCandidateFiles(ReadInterface $mediaDirectory): array
     {
-        $allFiles = $mediaDirectory->readRecursively(self::RELATIVE_SCAN_PATH);
+        $allPaths = $mediaDirectory->readRecursively(self::RELATIVE_SCAN_PATH);
 
         $files = array_values(array_filter(
-            $allFiles,
-            static function (string $path): bool {
-                if (str_ends_with($path, '/')) {
+            $allPaths,
+            static function (string $path) use ($mediaDirectory): bool {
+                if (!$mediaDirectory->isFile($path)) {
                     return false;
                 }
 
