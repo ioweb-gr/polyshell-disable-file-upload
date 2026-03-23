@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="ioweb_polyshell" translate="label" type="text" sortOrder="950" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>PolyShell Protection</label>
+            <tab>security</tab>
+            <resource>Ioweb_PolyshellDisableFileUpload::config</resource>
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="disable_uploads" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Disable PolyShell Uploads</label>
+                    <comment>Hard-block file custom option uploads in API and storefront validation.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allow_only_image_extensions" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Allow Only Image Extensions</label>
+                    <comment>Mark-style mitigation: only permit jpg, jpeg, gif, and png extensions for image content uploads.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

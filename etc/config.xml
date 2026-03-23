@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <ioweb_polyshell>
+            <general>
+                <disable_uploads>1</disable_uploads>
+                <allow_only_image_extensions>1</allow_only_image_extensions>
+            </general>
+        </ioweb_polyshell>
+    </default>
+</config>

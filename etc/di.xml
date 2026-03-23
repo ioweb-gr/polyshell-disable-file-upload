@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Catalog\Model\CustomOptions\CustomOption">
+        <plugin name="ioweb_disable_file_custom_option_api"
+                type="Ioweb\PolyshellDisableFileUpload\Plugin\DisableApiFileCustomOption"/>
+    </type>
+    <type name="Magento\Catalog\Model\Product\Option\Type\File\ValidatorFile">
+        <plugin name="ioweb_disable_file_custom_option_validator"
+                type="Ioweb\PolyshellDisableFileUpload\Plugin\DisableFileOptionValidator"/>
+    </type>
+    <type name="Magento\Framework\Api\ImageProcessor">
+        <plugin name="ioweb_polyshell_restrict_upload_extensions"
+                type="Ioweb\PolyshellDisableFileUpload\Plugin\ImageProcessorRestrictExtensions"/>
+    </type>
+    <type name="Magento\Framework\Api\ImageContentValidator">
+        <plugin name="ioweb_polyshell_validate_file_extension"
+                type="Ioweb\PolyshellDisableFileUpload\Plugin\ImageContentValidatorExtension"/>
+    </type>
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="ioweb_polyshell_scan_custom_options" xsi:type="object">Ioweb\PolyshellDisableFileUpload\Console\Command\ScanCustomOptionsCommand</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
