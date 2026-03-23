@@ -64,7 +64,7 @@ Add the repository to your project and require the package:
 
 ```bash
 composer config repositories.ioweb-polyshell-disable-file-upload vcs https://github.com/ioweb-gr/polyshell-disable-file-upload.git
-composer require ioweb/polyshell-disable-file-upload
+composer require ioweb-gr/polyshell-disable-file-upload
 bin/magento module:enable Ioweb_PolyshellDisableFileUpload
 bin/magento setup:upgrade
 bin/magento cache:flush

@@ -1,5 +1,5 @@
 {
-  "name": "ioweb/polyshell-disable-file-upload",
+  "name": "ioweb-gr/polyshell-disable-file-upload",
   "description": "Magento 2 module that disables file custom option uploads as a temporary PolyShell mitigation.",
   "type": "magento2-module",
   "license": [
